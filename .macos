@@ -12,15 +12,15 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # General UI/UX                                                               #
 ###############################################################################
 
-#COMPUTERNAME="GWHN-MBP12"
-#HOSTNAME="MBP12"
-#LOCALHOSTNAME="MBP12"
+COMPUTERNAME="GWHN-MBP12"
+HOSTNAME="GWHN-MBP12"
+LOCALHOSTNAME="GWHN-MBP12"
 
 # Set computer name (as done via System Preferences → Sharing)
-#sudo scutil --set ComputerName $COMPUTERNAME
-#sudo scutil --set HostName $HOSTNAME
-#sudo scutil --set LocalHostName $LOCALHOSTNAME
-#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $LOCALHOSTNAME
+sudo scutil --set ComputerName $COMPUTERNAME
+sudo scutil --set HostName $HOSTNAME
+sudo scutil --set LocalHostName $LOCALHOSTNAME
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $LOCALHOSTNAME
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
