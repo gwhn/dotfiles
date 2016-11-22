@@ -104,8 +104,6 @@ nnoremap k gk
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-" Make ; do the same as :
-"nnoremap ; :
 " Save on losing focus
 au FocusLost * :wa
 " Highlight searches
@@ -165,14 +163,3 @@ if has("autocmd")
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
-
-"python from powerline.vim import setup as powerline_setup
-"python powerline_setup()
-"python del powerline_setup
-
-"colorscheme base16-solarized-dark
-
-"if filereadable(expand("~/.vimrc_background"))
-"  let base16colorspace=256
-"  source ~/.vimrc_background
-"endif
