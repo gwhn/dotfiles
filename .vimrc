@@ -92,7 +92,7 @@ vnoremap <tab> %
 if has('win32')
   set guifont=Consolas:h11                          " Win32.
 elseif has('gui_macvim')
-  set guifont=Source\ Code\ Pro\ Medium:h11         " OSX.
+  set guifont=Source\ Code\ Pro\ Light:h11         " OSX.
 else
   set guifont=Monospace\ 11                         " Linux.
 endif
