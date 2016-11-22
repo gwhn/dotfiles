@@ -1,14 +1,28 @@
-filetype off
-call pathogen#infect()
-filetype plugin indent on
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+Plugin 'chriskempson/base16-vim'
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 " Search down into subfolders
 set path+=**
 " Display matching files on tab completion
 set wildmenu
-" Use the Base16 Ocean Dark theme
-set background=dark
-colorscheme base16-ocean
-let g:base16_ocean_termtrans=1
 " Quick escaping
 inoremap jj <ESC>
 " Auto-indenting
@@ -162,4 +176,9 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+endif
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
 endif
