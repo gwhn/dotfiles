@@ -12,6 +12,7 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
 Plugin 'chriskempson/base16-vim'
+Plugin 'Valloric/YouCompleteMe'
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 
