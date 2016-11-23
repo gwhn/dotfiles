@@ -213,3 +213,11 @@ nnoremap <leader>u :GundoToggle<CR>
 let g:gundo_width=60
 let g:gundo_right=1
 let g:gundo_help=0
+
+" Tabularize shortcuts for = and : alignment
+if exists(":Tabularize")
+  nmap <leader>a= :Tabularize /=<CR>
+  vmap <leader>a= :Tabularize /=<CR>
+  nmap <leader>a: :Tabularize /:\zs<CR>
+  vmap <leader>a: :Tabularize /:\zs<CR>
+endif
