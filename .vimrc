@@ -11,8 +11,27 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-sleuth'
+Plugin 'tyru/open-browser.vim'
 Plugin 'chriskempson/base16-vim'
+Plugin 'wincent/command-t'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'majutsushi/tagbar'
+Plugin 'sjl/gundo.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'bling/vim-bufferline'
+Plugin 'justinmk/vim-sneak'
+Plugin 'mhinz/vim-signify'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown' " must come after tabular
+Plugin 'fatih/vim-go'
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 
@@ -49,7 +68,7 @@ set gdefault
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 " Change mapleader
-let mapleader=","
+let mapleader=" "
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
@@ -77,9 +96,12 @@ syntax on
 set cursorline
 " Make tabs as wide as two spaces
 set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+
+" shiftwidth and expandtab auto handled by vim-sleuth
+"set shiftwidth=2
+"set softtabstop=2
 "set expandtab
+
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
@@ -183,3 +205,5 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
+
+let g:airline_theme='base16'
