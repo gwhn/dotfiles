@@ -205,5 +205,7 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
-
+" set airline theme to base16
 let g:airline_theme='base16'
+" map F5 to toggle gundo window
+nnoremap <leader>u :GundoToggle<CR>
