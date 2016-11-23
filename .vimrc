@@ -31,7 +31,7 @@ Plugin 'bling/vim-bufferline'
 Plugin 'justinmk/vim-sneak'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown' " must come after tabular
+Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
 Plugin 'fatih/vim-go'
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
@@ -286,6 +286,35 @@ endif
 " Set gitgutter update time
 set updatetime=250
 
+" vim-go run, build, test and coverage mappings
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+" By default the mapping gd is enabled,
+" which opens the target identifier in current buffer.
+" Open the definition/declaration, in a new vertical,
+" horizontal, or tab, for the word under your cursor:
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+
+" Open the relevant Godoc for the word under the cursor with <leader>gd or open
+" it vertically with <leader>gv
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
+" Show a list of interfaces which is implemented by the type under your cursor
+" with <leader>s
+au FileType go nmap <Leader>s <Plug>(go-implements)
+
+" Show type info for the word under your cursor with <leader>i
+au FileType go nmap <Leader>i <Plug>(go-info)
+
+" Rename the identifier under the cursor to a new name
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
 " Basic syntastic settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -317,31 +346,7 @@ let g:go_fmt_command="goimports"
 " By default vim-go shows errors for the fmt command, to disable it
 let g:go_fmt_fail_silently=1
 
-" vim-go run, build, test and coverage mappings
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-
-" By default the mapping gd is enabled,
-" which opens the target identifier in current buffer.
-" Open the definition/declaration, in a new vertical,
-" horizontal, or tab, for the word under your cursor:
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-
-" Open the relevant Godoc for the word under the cursor with <leader>gd or open
-" it vertically with <leader>gv
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-
-" Show a list of interfaces which is implemented by the type under your cursor
-" with <leader>s
-au FileType go nmap <Leader>s <Plug>(go-implements)
-
-" Show type info for the word under your cursor with <leader>i
-au FileType go nmap <Leader>i <Plug>(go-info)
-
-" Rename the identifier under the cursor to a new name
-au FileType go nmap <Leader>e <Plug>(go-rename)
+" Change command-t mappings
+nmap <silent> <Leader>f <Plug>(CommandT)
+nmap <silent> <Leader>b <Plug>(CommandTBuffer)
+nmap <silent> <Leader>j <Plug>(CommandTJump)
