@@ -118,9 +118,9 @@ set cursorline
 set tabstop=2
 
 " Let vim-sleuth handle shiftwidth and expandtab settings
-"set shiftwidth=2
-"set softtabstop=2
-"set expandtab
+set shiftwidth=2
+set softtabstop=2
+set expandtab
 
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
@@ -163,6 +163,16 @@ inoremap <right> <nop>
 " Make j and k move up and down by screen line, not file line
 nnoremap j gj
 nnoremap k gk
+
+" Change window navigation mapping
+map <C-J> <C-W>j<C-W>_
+map <C-K> <C-W>k<C-W>_
+map <C-L> <C-W>l<C-W>_
+map <C-H> <C-W>h<C-W>_
+
+" Change tab navigation mapping
+map <S-H> gT
+map <S-L> gt
 
 " Disable F1 because it's too close to ESC
 inoremap <F1> <ESC>
@@ -281,7 +291,57 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+
+" Fix opening/saving file lag with vim-go and syntastic
+let g:syntastic_go_checkers=['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map={ 'mode': 'active', 'passive_filetypes': ['go'] }
+
+" Fix location list window not appearing with vim-go and syntastic
+let g:go_list_type = "quickfix"
+
+" Set golang syntax highlighting
+let g:go_highlight_functions=1
+let g:go_highlight_methods=1
+let g:go_highlight_fields=1
+let g:go_highlight_types=1
+let g:go_highlight_operators=1
+let g:go_highlight_build_constraints=1
+
+" Enable goimports to automatically insert import paths instead of gofmt
+let g:go_fmt_command="goimports"
+
+" By default vim-go shows errors for the fmt command, to disable it
+let g:go_fmt_fail_silently=1
+
+" vim-go run, build, test and coverage mappings
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+" By default the mapping gd is enabled,
+" which opens the target identifier in current buffer.
+" Open the definition/declaration, in a new vertical,
+" horizontal, or tab, for the word under your cursor:
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+
+" Open the relevant Godoc for the word under the cursor with <leader>gd or open
+" it vertically with <leader>gv
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
+" Show a list of interfaces which is implemented by the type under your cursor
+" with <leader>s
+au FileType go nmap <Leader>s <Plug>(go-implements)
+
+" Show type info for the word under your cursor with <leader>i
+au FileType go nmap <Leader>i <Plug>(go-info)
+
+" Rename the identifier under the cursor to a new name
+au FileType go nmap <Leader>e <Plug>(go-rename)
