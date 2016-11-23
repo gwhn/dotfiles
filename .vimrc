@@ -258,19 +258,19 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
 
-" configure base16-shell
+" Configure base16-shell
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
 
-" set airline theme to base16
+" Set airline theme to base16
 let g:airline_theme='base16'
 
-" map F5 to toggle gundo window
+" Map F5 to toggle gundo window
 nnoremap <leader>u :GundoToggle<CR>
 
-" display gundo in window on right
+" Display gundo in window on right
 let g:gundo_width=60
 let g:gundo_right=1
 let g:gundo_help=0
@@ -287,10 +287,10 @@ endif
 set updatetime=250
 
 " vim-go run, build, test and coverage mappings
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>gr <Plug>(go-run)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gt <Plug>(go-test)
+au FileType go nmap <leader>gc <Plug>(go-coverage)
 
 " By default the mapping gd is enabled,
 " which opens the target identifier in current buffer.
@@ -307,13 +307,13 @@ au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 
 " Show a list of interfaces which is implemented by the type under your cursor
 " with <leader>s
-au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>gs <Plug>(go-implements)
 
 " Show type info for the word under your cursor with <leader>i
-au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gi <Plug>(go-info)
 
 " Rename the identifier under the cursor to a new name
-au FileType go nmap <Leader>e <Plug>(go-rename)
+au FileType go nmap <Leader>ge <Plug>(go-rename)
 
 " Basic syntastic settings
 set statusline+=%#warningmsg#
@@ -347,6 +347,16 @@ let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently=1
 
 " Change command-t mappings
-nmap <silent> <Leader>f <Plug>(CommandT)
-nmap <silent> <Leader>b <Plug>(CommandTBuffer)
-nmap <silent> <Leader>j <Plug>(CommandTJump)
+nmap <silent> <Leader>tt <Plug>(CommandT)
+nmap <silent> <Leader>tb <Plug>(CommandTBuffer)
+nmap <silent> <Leader>tj <Plug>(CommandTJump)
+
+" Add NERD tree toggle mapping
+if exists(":NERDTreeToggle")
+  nmap <Leader>nt :NERDTreeToggle<CR>
+endif
+
+" Add Tagbar toggle mapping
+if exists(":TagbarToggle")
+  nmap <Leader>tb :TagbarToggle<CR>
+endif
