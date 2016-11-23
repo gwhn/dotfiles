@@ -209,3 +209,7 @@ endif
 let g:airline_theme='base16'
 " map F5 to toggle gundo window
 nnoremap <leader>u :GundoToggle<CR>
+" display gundo in window on right
+let g:gundo_width=60
+let g:gundo_right=1
+let g:gundo_help=0
