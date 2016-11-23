@@ -28,7 +28,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'bling/vim-bufferline'
 Plugin 'justinmk/vim-sneak'
-Plugin 'mhinz/vim-signify'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' " must come after tabular
 Plugin 'fatih/vim-go'
@@ -271,3 +271,6 @@ if exists(":Tabularize")
   nmap <leader>a: :Tabularize /:\zs<CR>
   vmap <leader>a: :Tabularize /:\zs<CR>
 endif
+
+" Set gitgutter update time
+set updatetime=250
