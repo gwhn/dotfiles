@@ -246,7 +246,7 @@ endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
 " Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+noremap <leader>sr :w !sudo tee % > /dev/null<CR>
 
 " Automatic commands
 if has("autocmd")
@@ -268,10 +268,10 @@ endif
 let g:airline_theme='base16'
 
 " Map F5 to toggle gundo window
-nnoremap <leader>u :GundoToggle<CR>
+nnoremap <leader>ud :GundoToggle<CR>
 
 " Display gundo in window on right
-let g:gundo_width=60
+let g:gundo_width=50
 let g:gundo_right=1
 let g:gundo_help=0
 
@@ -301,15 +301,14 @@ au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 
 " Open the relevant Godoc for the word under the cursor with <leader>gd or open
-" it vertically with <leader>gv
+" it vertically
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 
 " Show a list of interfaces which is implemented by the type under your cursor
-" with <leader>s
 au FileType go nmap <Leader>gs <Plug>(go-implements)
 
-" Show type info for the word under your cursor with <leader>i
+" Show type info for the word under your cursor
 au FileType go nmap <Leader>gi <Plug>(go-info)
 
 " Rename the identifier under the cursor to a new name
@@ -358,5 +357,5 @@ endif
 
 " Add Tagbar toggle mapping
 if exists(":TagbarToggle")
-  nmap <Leader>tb :TagbarToggle<CR>
+  nmap <Leader>tt :TagbarToggle<CR>
 endif
