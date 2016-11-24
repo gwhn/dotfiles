@@ -17,7 +17,8 @@ Plugin 'tpope/vim-sleuth'
 Plugin 'tyru/open-browser.vim'
 Plugin 'chriskempson/base16-vim'
 Plugin 'wincent/command-t'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'majutsushi/tagbar'
@@ -170,10 +171,6 @@ map <C-K> <C-W>k<C-W>_
 map <C-L> <C-W>l<C-W>_
 map <C-H> <C-W>h<C-W>_
 
-" Change tab navigation mapping
-map <S-H> gT
-map <S-L> gt
-
 " Disable F1 because it's too close to ESC
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -267,6 +264,17 @@ endif
 " Set airline theme to base16
 let g:airline_theme='base16'
 
+" Make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" Better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsListSnippetsTrigger = "<C-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<S-tab>"
+
 " Map F5 to toggle gundo window
 nnoremap <leader>ud :GundoToggle<CR>
 
@@ -352,10 +360,10 @@ nmap <silent> <Leader>tj <Plug>(CommandTJump)
 
 " Add NERD tree toggle mapping
 if exists(":NERDTreeToggle")
-  nmap <Leader>nt :NERDTreeToggle<CR>
+  nmap <Leader>ntt :NERDTreeToggle<CR>
 endif
 
 " Add Tagbar toggle mapping
 if exists(":TagbarToggle")
-  nmap <Leader>tt :TagbarToggle<CR>
+  nmap <Leader>tbt :TagbarToggle<CR>
 endif
