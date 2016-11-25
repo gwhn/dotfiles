@@ -35,6 +35,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
 Plugin 'fatih/vim-go'
+Plugin 'mileszs/ack.vim'
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 
