@@ -83,7 +83,7 @@ set gdefault
 set encoding=utf-8 nobomb
 
 " Change mapleader
-let mapleader=" "
+let mapleader = " "
 
 " Don’t add empty newlines at the end of files
 set binary
@@ -243,8 +243,8 @@ function! StripWhitespace()
 endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
-" Save a file as root (,W)
-noremap <leader>sr :w !sudo tee % > /dev/null<CR>
+" Save a file as root
+noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
 " Automatic commands
 if has("autocmd")
@@ -258,12 +258,12 @@ endif
 
 " Configure base16-shell
 if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
+  let base16colorspace = 256
   source ~/.vimrc_background
 endif
 
 " Set airline theme to base16
-let g:airline_theme='base16'
+let g:airline_theme = 'base16'
 
 " Make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -271,18 +271,18 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " Better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsListSnippets = '<C-s>'
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<S-tab>"
-  
+let g:UltiSnipsJumpForwardTrigger = '<C-n>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-p>'
+
 " Map F5 to toggle gundo window
 nnoremap <leader>ud :GundoToggle<CR>
 
 " Display gundo in window on right
-let g:gundo_width=50
-let g:gundo_right=1
-let g:gundo_help=0
+let g:gundo_width = 50
+let g:gundo_right = 1
+let g:gundo_help = 0
 
 " Tabularize shortcuts for = and : alignment
 if exists(":Tabularize")
@@ -328,31 +328,31 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Fix opening/saving file lag with vim-go and syntastic
-let g:syntastic_go_checkers=['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map={ 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 " Fix location list window not appearing with vim-go and syntastic
-let g:go_list_type = "quickfix"
+let g:go_list_type = 'quickfix'
 
 " Set golang syntax highlighting
-let g:go_highlight_functions=1
-let g:go_highlight_methods=1
-let g:go_highlight_fields=1
-let g:go_highlight_types=1
-let g:go_highlight_operators=1
-let g:go_highlight_build_constraints=1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 " Enable goimports to automatically insert import paths instead of gofmt
-let g:go_fmt_command="goimports"
+let g:go_fmt_command = 'goimports'
 
 " By default vim-go shows errors for the fmt command, to disable it
-let g:go_fmt_fail_silently=1
+let g:go_fmt_fail_silently = 1
 
 " Change command-t mappings
 nmap <silent> <Leader>tt <Plug>(CommandT)
@@ -374,3 +374,6 @@ if exists(":GitGutterNextHunk")
   nmap ]h <Plug>GitGutterNextHunk
   nmap [h <Plug>GitGutterPrevHunk
 endif
+
+" bufferline should not echo to the command line
+let g:bufferline_echo = 0
