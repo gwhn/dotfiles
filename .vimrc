@@ -361,6 +361,9 @@ nmap <silent> <Leader>fj <Plug>(CommandTJump)
 
 " Add NERD tree toggle mapping
 nmap <Leader>nt :NERDTreeToggle<CR>
+nmap <Leader>nm :NERDTreeMirror<CR>
+nmap <Leader>nf :NERDTreeFind<CR>
+nmap <Leader>nc :NERDTreeCWD<CR>
 
 " Add Tagbar toggle mapping
 nmap <Leader>tb :TagbarToggle<CR>
