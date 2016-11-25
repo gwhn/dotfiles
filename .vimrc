@@ -14,6 +14,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'tyru/open-browser.vim'
 Plugin 'chriskempson/base16-vim'
 Plugin 'wincent/command-t'
@@ -271,10 +272,10 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " Better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsListSnippetsTrigger = "<C-tab>"
+let g:UltiSnipsListSnippets = '<C-s>'
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<S-tab>"
-
+  
 " Map F5 to toggle gundo window
 nnoremap <leader>ud :GundoToggle<CR>
 
@@ -292,7 +293,7 @@ if exists(":Tabularize")
 endif
 
 " Set gitgutter update time
-set updatetime=250
+set updatetime=1000
 
 " vim-go run, build, test and coverage mappings
 au FileType go nmap <leader>gr <Plug>(go-run)
@@ -366,4 +367,10 @@ endif
 " Add Tagbar toggle mapping
 if exists(":TagbarToggle")
   nmap <Leader>tbt :TagbarToggle<CR>
+endif
+
+" Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
+if exists(":GitGutterNextHunk")
+  nmap ]h <Plug>GitGutterNextHunk
+  nmap [h <Plug>GitGutterPrevHunk
 endif
