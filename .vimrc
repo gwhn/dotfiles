@@ -355,25 +355,19 @@ let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
 
 " Change command-t mappings
-nmap <silent> <Leader>tt <Plug>(CommandT)
-nmap <silent> <Leader>tb <Plug>(CommandTBuffer)
-nmap <silent> <Leader>tj <Plug>(CommandTJump)
+nmap <silent> <Leader>ft <Plug>(CommandT)
+nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
+nmap <silent> <Leader>fj <Plug>(CommandTJump)
 
 " Add NERD tree toggle mapping
-if exists(":NERDTreeToggle")
-  nmap <Leader>ntt :NERDTreeToggle<CR>
-endif
+nmap <Leader>nt :NERDTreeToggle<CR>
 
 " Add Tagbar toggle mapping
-if exists(":TagbarToggle")
-  nmap <Leader>tbt :TagbarToggle<CR>
-endif
+nmap <Leader>tb :TagbarToggle<CR>
 
 " Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
-if exists(":GitGutterNextHunk")
-  nmap ]h <Plug>GitGutterNextHunk
-  nmap [h <Plug>GitGutterPrevHunk
-endif
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
 
 " bufferline should not echo to the command line
 let g:bufferline_echo = 0
