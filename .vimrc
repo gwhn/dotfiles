@@ -355,7 +355,7 @@ let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
 
 " Change command-t mappings
-nmap <silent> <Leader>ft <Plug>(CommandT)
+nmap <silent> <Leader>f <Plug>(CommandT)
 nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
 nmap <silent> <Leader>fj <Plug>(CommandTJump)
 
