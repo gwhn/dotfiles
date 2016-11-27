@@ -49,7 +49,7 @@ filetype plugin indent on    " required
 set path+=**
 
 " Quick escaping
-inoremap jk <ESC>
+inoremap jk <esc>
 
 " Auto-indenting
 set autoindent
@@ -61,8 +61,19 @@ set clipboard=unnamed
 " Enhance command-line completion
 set wildmenu
 set wildmode=list:longest
+
+" File patterns to ignore
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+set wildignore+=*.orig                           " Merge resolution files
+
+" No beeping at me!
 set visualbell
-set undofile
 
 " Allow cursor keys in insert mode
 set esckeys
@@ -88,13 +99,23 @@ let maplocalleader = "\u000D"
 iabbrev guy@ guy@weblitz.co.uk
 iabbrev gwhn@ guy@weblitz.co.uk
 
+" Auto read and write
+set autoread
+set autowrite
+
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
 
+" Enable more history
+set history=1000
+
 " Enable backup and disable swap file
 set backup
 set noswapfile
+
+" Auto save undo history
+set undofile
 
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
@@ -128,20 +149,40 @@ set number
 " Enable syntax highlighting
 syntax on
 
+" set dark background
+set background=dark
+
 " Highlight current line
 set cursorline
 
 " Make tabs as wide as two spaces
 set tabstop=2
-
-" Let vim-sleuth handle shiftwidth and expandtab settings
+set shiftround
 set shiftwidth=2
 set softtabstop=2
 set expandtab
 
+" Timeout on key codes but not mappings
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+
+" Set updatetime
+set updatetime=1000
+
 " Show “invisible” characters
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_,extends:❯,precedes:❮
 set list
+
+" Show breaks
+set showbreak=↪
+
+" Split new windows below and right
+set splitbelow
+set splitright
+
+" Set lazyredraw. To force :redraw
+set lazyredraw
 
 " Tame searching/moving
 nnoremap / /\v
@@ -162,10 +203,11 @@ endif
 set linespace=0
 
 " Handle long lines nicely
+set linebreak
 set wrap
-set textwidth=79
+set textwidth=80
 set formatoptions=qrn1t
-set colorcolumn=85
+set colorcolumn=+1
 
 " Get into good habits by disabling arrow keys
 nnoremap <up> <nop>
@@ -176,24 +218,27 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
+" And backspace and escape in insert mode
+inoremap <bs> <nop>
+inoremap <esc> <nop>
 
 " Make j and k move up and down by screen line, not file line
 nnoremap j gj
 nnoremap k gk
 
 " Change window navigation mapping
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
-map <C-L> <C-W>l<C-W>_
-map <C-H> <C-W>h<C-W>_
+map <c-j> <c-w>j<c-w>_
+map <c-k> <c-w>k<c-w>_
+map <c-l> <c-w>l<c-w>_
+map <c-h> <c-w>h<c-w>_
 
 " Disable F1 because it's too close to ESC
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
+inoremap <f1> <esc>
+nnoremap <f1> <esc>
+vnoremap <f1> <esc>
 
 " Save on losing focus
-au FocusLost * :wa
+au FocusLost * :silent! wall
 
 " Highlight searches
 set hlsearch
@@ -242,21 +287,35 @@ if exists("&relativenumber")
   au BufReadPost * set relativenumber
 endif
 
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
+set sidescroll=1
+set sidescrolloff=10
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-  let save_cursor = getpos(".")
-  let old_query = getreg('/')
-  :%s/\s\+$//e
-  call setpos('.', save_cursor)
-  call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
+" Start with fold closed
+set foldlevelstart=0
+
+" Allow virtual editing in Visual block mode
+set virtualedit+=block
+
+" Strip trailing whitespace
+nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 " Save a file as root
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+noremap <leader>W :w !sudo tee % > /dev/null<cr>
+
+" Quick editing
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " Automatic commands
 if has("autocmd")
@@ -329,15 +388,15 @@ let g:airline#extensions#bufferline#enabled = 1
 let g:airline#extensions#bufferline#overwrite_variables = 1
 
 " Make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_key_list_select_completion = ['<c-n>', '<down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<up>']
+let g:SuperTabDefaultCompletionType = '<c-n>'
 
 " Better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsListSnippets = '<C-s>'
-let g:UltiSnipsJumpForwardTrigger = '<C-n>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-p>'
+let g:UltiSnipsListSnippets = '<c-s>'
+let g:UltiSnipsJumpForwardTrigger = '<c-n>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-p>'
 
 " Map F5 to toggle gundo window
 nnoremap <leader>ud :GundoToggle<CR>
@@ -349,14 +408,11 @@ let g:gundo_help = 0
 
 " Tabularize shortcuts for = and : alignment
 if exists(":Tabularize")
-  nmap <leader>a= :Tabularize /=<CR>
-  vmap <leader>a= :Tabularize /=<CR>
-  nmap <leader>a: :Tabularize /:\zs<CR>
-  vmap <leader>a: :Tabularize /:\zs<CR>
+  nmap <leader>a= :Tabularize /=<cr>
+  vmap <leader>a= :Tabularize /=<cr>
+  nmap <leader>a: :Tabularize /:\zs<cr>
+  vmap <leader>a: :Tabularize /:\zs<cr>
 endif
-
-" Set gitgutter update time
-set updatetime=1000
 
 " vim-go run, build, test and coverage mappings
 au FileType go nmap <leader>gr <Plug>(go-run)
@@ -368,23 +424,23 @@ au FileType go nmap <leader>gc <Plug>(go-coverage)
 " which opens the target identifier in current buffer.
 " Open the definition/declaration, in a new vertical,
 " horizontal, or tab, for the word under your cursor:
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <leader>ds <Plug>(go-def-split)
+au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <leader>dt <Plug>(go-def-tab)
 
 " Open the relevant Godoc for the word under the cursor with <leader>gd or open
 " it vertically
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gd <Plug>(go-doc)
+au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 
 " Show a list of interfaces which is implemented by the type under your cursor
-au FileType go nmap <Leader>gs <Plug>(go-implements)
+au FileType go nmap <leader>gs <Plug>(go-implements)
 
 " Show type info for the word under your cursor
-au FileType go nmap <Leader>gi <Plug>(go-info)
+au FileType go nmap <leader>gi <Plug>(go-info)
 
 " Rename the identifier under the cursor to a new name
-au FileType go nmap <Leader>ge <Plug>(go-rename)
+au FileType go nmap <leader>ge <Plug>(go-rename)
 
 " Basic syntastic settings
 set statusline+=%#warningmsg#
@@ -418,18 +474,18 @@ let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
 
 " Change command-t mappings
-nmap <silent> <Leader>f <Plug>(CommandT)
-nmap <silent> <Leader>fb <Plug>(CommandTBuffer)
-nmap <silent> <Leader>fj <Plug>(CommandTJump)
+nmap <silent> <leader>f <Plug>(CommandT)
+nmap <silent> <leader>fb <Plug>(CommandTBuffer)
+nmap <silent> <leader>fj <Plug>(CommandTJump)
 
 " Add NERD tree toggle mapping
-nmap <Leader>nt :NERDTreeToggle<CR>
-nmap <Leader>nm :NERDTreeMirror<CR>
-nmap <Leader>nf :NERDTreeFind<CR>
-nmap <Leader>nc :NERDTreeCWD<CR>
+nmap <leader>nt :NERDTreeToggle<cr>
+nmap <leader>nm :NERDTreeMirror<cr>
+nmap <leader>nf :NERDTreeFind<cr>
+nmap <leader>nc :NERDTreeCWD<cr>
 
 " Add Tagbar toggle mapping
-nmap <Leader>tb :TagbarToggle<CR>
+nmap <leader>tb :TagbarToggle<cr>
 
 " Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
 nmap ]h <Plug>GitGutterNextHunk
