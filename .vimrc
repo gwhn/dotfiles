@@ -1,5 +1,5 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
+
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -37,7 +37,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
 Plugin 'mattn/emmet-vim'
 Plugin 'fatih/vim-go'
-Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and powerline
+Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 
@@ -48,17 +48,11 @@ filetype plugin indent on    " required
 " Search down into subfolders
 set path+=**
 
-" Display matching files on tab completion
-set wildmenu
-
 " Quick escaping
-inoremap jj <ESC>
+inoremap jk <ESC>
 
 " Auto-indenting
 set autoindent
-
-" Make Vim more useful
-set nocompatible
 
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set hidden
@@ -85,18 +79,36 @@ set gdefault
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 
-" Change mapleader
-let mapleader = " "
+" Change mapleader to <space> key
+let mapleader = "\u0020"
+" Change maplocalleader to <cr> key
+let maplocalleader = "\u000D"
+
+" Abbreviations
+iabbrev guy@ guy@weblitz.co.uk
+iabbrev gwhn@ guy@weblitz.co.uk
 
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
 
+" Enable backup and disable swap file
+set backup
+set noswapfile
+
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
-if exists("&undodir")
-  set undodir=~/.vim/undo
+set undodir=~/.vim/undo
+
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), "p")
+endif
+if !isdirectory(expand(&undodir))
+  call mkdir(expand(&undodir), "p")
 endif
 
 " Don’t create backups when editing files in certain directories
@@ -185,9 +197,6 @@ au FocusLost * :wa
 
 " Highlight searches
 set hlsearch
-
-" Turn of search highlight
-nnoremap <leader><space> :noh<cr>
 
 " Ignore case of searches
 set ignorecase
