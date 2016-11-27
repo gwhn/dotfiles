@@ -265,11 +265,59 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
+" bufferline should not echo to the command line
+let g:bufferline_echo = 0
+
+" Denotes whether buffer numbers should be displayed
+let g:bufferline_show_bufnr = 0
+
 " Set airline theme to base16
 let g:airline_theme = 'base16'
 
 " Use Powerline fonts with airline
 let g:airline_powerline_fonts = 1
+
+" Use enhanced airline tabline
+let g:airline#extensions#tabline#enabled = 1
+
+" Enable displaying buffers with a single tab
+let g:airline#extensions#tabline#show_buffers = 1
+
+" Enable displaying tab number in tabs mode
+let g:airline#extensions#tabline#show_tab_nr = 1
+
+" Disable buffer numbers in tabline
+let g:airline#extensions#tabline#buffer_nr_show = 0
+
+" Configure the formatting of filenames to just the tail
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" The `unique_tail_improved` - another algorithm, that will smartly uniquify
+" buffers names with similar filename, suppressing common parts of paths
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" Enable displaying index of the buffer
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
+
+" Enable tagbar integration
+let g:airline#extensions#tagbar#enabled = 1
+
+" Enable bufferline integration
+let g:airline#extensions#bufferline#enabled = 1
+
+" Determine whether bufferline will overwrite customization variables
+let g:airline#extensions#bufferline#overwrite_variables = 1
 
 " Make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -377,6 +425,3 @@ nmap <Leader>tb :TagbarToggle<CR>
 " Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-
-" bufferline should not echo to the command line
-let g:bufferline_echo = 0
