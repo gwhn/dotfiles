@@ -22,6 +22,7 @@ Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'majutsushi/tagbar'
 Plugin 'sjl/gundo.vim'
 Plugin 'SirVer/ultisnips'
@@ -34,7 +35,9 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
+Plugin 'mattn/emmet-vim'
 Plugin 'fatih/vim-go'
+Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and powerline
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
 
@@ -136,15 +139,15 @@ vnoremap <tab> %
 
 " Font type and size setting.
 if has('win32')
-  set guifont=Consolas:h11                 " Win32.
+  set guifont=Consolas:h11                        " Win32.
 elseif has('gui_macvim')
-  set guifont=Source\ Code\ Pro\ Light:h11 " OSX.
+  set guifont=SauceCodePro\ Nerd\ Font\ Light:h11 " OSX.
 else
-  set guifont=Monospace\ 11                " Linux.
+  set guifont=Monospace\ 11                       " Linux.
 endif
 
-" Maximize lines per screen height
-set linespace=1
+" Don't pad line height ( GUI specific )
+set linespace=0
 
 " Handle long lines nicely
 set wrap
@@ -264,6 +267,9 @@ endif
 
 " Set airline theme to base16
 let g:airline_theme = 'base16'
+
+" Use Powerline fonts with airline
+let g:airline_powerline_fonts = 1
 
 " Make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
