@@ -227,10 +227,16 @@ nnoremap j gj
 nnoremap k gk
 
 " Change window navigation mapping
-map <c-j> <c-w>j<c-w>_
-map <c-k> <c-w>k<c-w>_
-map <c-l> <c-w>l<c-w>_
-map <c-h> <c-w>h<c-w>_
+nnoremap <c-j> <c-w>j<c-w>_
+nnoremap <c-k> <c-w>k<c-w>_
+nnoremap <c-l> <c-w>l<c-w>_
+nnoremap <c-h> <c-w>h<c-w>_
+
+" Create a split on the given side
+nnoremap <leader>hh :leftabove vsp<cr>
+nnoremap <leader>ll :rightbelow vsp<cr>
+nnoremap <leader>kk :leftabove sp<cr>
+nnoremap <leader>jj :rightbelow sp<cr>
 
 " Disable F1 because it's too close to ESC
 inoremap <f1> <esc>
@@ -366,17 +372,17 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " Enable displaying index of the buffer
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+nnoremap <leader>1 <Plug>AirlineSelectTab1
+nnoremap <leader>2 <Plug>AirlineSelectTab2
+nnoremap <leader>3 <Plug>AirlineSelectTab3
+nnoremap <leader>4 <Plug>AirlineSelectTab4
+nnoremap <leader>5 <Plug>AirlineSelectTab5
+nnoremap <leader>6 <Plug>AirlineSelectTab6
+nnoremap <leader>7 <Plug>AirlineSelectTab7
+nnoremap <leader>8 <Plug>AirlineSelectTab8
+nnoremap <leader>9 <Plug>AirlineSelectTab9
+nnoremap <leader>- <Plug>AirlineSelectPrevTab
+nnoremap <leader>+ <Plug>AirlineSelectNextTab
 
 " Enable tagbar integration
 let g:airline#extensions#tagbar#enabled = 1
@@ -408,39 +414,39 @@ let g:gundo_help = 0
 
 " Tabularize shortcuts for = and : alignment
 if exists(":Tabularize")
-  nmap <leader>a= :Tabularize /=<cr>
-  vmap <leader>a= :Tabularize /=<cr>
-  nmap <leader>a: :Tabularize /:\zs<cr>
-  vmap <leader>a: :Tabularize /:\zs<cr>
+  nnoremap <leader>a= :Tabularize /=<cr>
+  vnoremap <leader>a= :Tabularize /=<cr>
+  nnoremap <leader>a: :Tabularize /:\zs<cr>
+  vnoremap <leader>a: :Tabularize /:\zs<cr>
 endif
 
 " vim-go run, build, test and coverage mappings
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
+au FileType go nnoremap <leader>gr <Plug>(go-run)
+au FileType go nnoremap <leader>gb <Plug>(go-build)
+au FileType go nnoremap <leader>gt <Plug>(go-test)
+au FileType go nnoremap <leader>gc <Plug>(go-coverage)
 
 " By default the mapping gd is enabled,
 " which opens the target identifier in current buffer.
 " Open the definition/declaration, in a new vertical,
 " horizontal, or tab, for the word under your cursor:
-au FileType go nmap <leader>ds <Plug>(go-def-split)
-au FileType go nmap <leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <leader>dt <Plug>(go-def-tab)
+au FileType go nnoremap <leader>ds <Plug>(go-def-split)
+au FileType go nnoremap <leader>dv <Plug>(go-def-vertical)
+au FileType go nnoremap <leader>dt <Plug>(go-def-tab)
 
 " Open the relevant Godoc for the word under the cursor with <leader>gd or open
 " it vertically
-au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+au FileType go nnoremap <leader>gd <Plug>(go-doc)
+au FileType go nnoremap <leader>gv <Plug>(go-doc-vertical)
 
 " Show a list of interfaces which is implemented by the type under your cursor
-au FileType go nmap <leader>gs <Plug>(go-implements)
+au FileType go nnoremap <leader>gs <Plug>(go-implements)
 
 " Show type info for the word under your cursor
-au FileType go nmap <leader>gi <Plug>(go-info)
+au FileType go nnoremap <leader>gi <Plug>(go-info)
 
 " Rename the identifier under the cursor to a new name
-au FileType go nmap <leader>ge <Plug>(go-rename)
+au FileType go nnoremap <leader>ge <Plug>(go-rename)
 
 " Basic syntastic settings
 set statusline+=%#warningmsg#
@@ -456,8 +462,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
-" Fix location list window not appearing with vim-go and syntastic
-let g:go_list_type = 'quickfix'
 
 " Set golang syntax highlighting
 let g:go_highlight_functions = 1
@@ -474,19 +478,19 @@ let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
 
 " Change command-t mappings
-nmap <silent> <leader>f <Plug>(CommandT)
-nmap <silent> <leader>fb <Plug>(CommandTBuffer)
-nmap <silent> <leader>fj <Plug>(CommandTJump)
+nnoremap <silent> <leader>f <Plug>(CommandT)
+nnoremap <silent> <leader>fb <Plug>(CommandTBuffer)
+nnoremap <silent> <leader>fj <Plug>(CommandTJump)
 
 " Add NERD tree toggle mapping
-nmap <leader>nt :NERDTreeToggle<cr>
-nmap <leader>nm :NERDTreeMirror<cr>
-nmap <leader>nf :NERDTreeFind<cr>
-nmap <leader>nc :NERDTreeCWD<cr>
+nnoremap <leader>nt :NERDTreeToggle<cr>
+nnoremap <leader>nm :NERDTreeMirror<cr>
+nnoremap <leader>nf :NERDTreeFind<cr>
+nnoremap <leader>nc :NERDTreeCWD<cr>
 
 " Add Tagbar toggle mapping
-nmap <leader>tb :TagbarToggle<cr>
+nnoremap <leader>tb :TagbarToggle<cr>
 
 " Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+nnoremap ]h <Plug>GitGutterNextHunk
+nnoremap [h <Plug>GitGutterPrevHunk
