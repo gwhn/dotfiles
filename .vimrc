@@ -159,7 +159,7 @@ set modeline
 "set modelines=0
 
 " Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
+"set exrc
 set secure
 
 " Enable line numbers
@@ -169,7 +169,7 @@ set number
 syntax on
 
 " set dark background
-set background=dark
+"set background=dark
 
 " Highlight current line
 set cursorline
@@ -303,6 +303,14 @@ augroup line_return
         \ endif
 augroup END
 
+" Only show cursorline in the current window and in normal mode.
+
+augroup cline
+    autocmd!
+    autocmd WinLeave,InsertEnter * set nocursorline
+    autocmd WinEnter,InsertLeave * set cursorline
+augroup END
+
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
@@ -322,6 +330,8 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace = 256
   source ~/.vimrc_background
 endif
+
+highlight CursorLineNr ctermbg=LightGreen ctermfg=Black
 
 " }}}
 
