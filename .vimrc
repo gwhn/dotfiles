@@ -55,7 +55,6 @@ Plugin 'fatih/vim-go'
 Plugin 'chriskempson/base16-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'bling/vim-bufferline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kshenoy/vim-signature'
 Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
@@ -304,7 +303,6 @@ augroup line_return
 augroup END
 
 " Only show cursorline in the current window and in normal mode.
-
 augroup cline
     autocmd!
     autocmd WinLeave,InsertEnter * set nocursorline
@@ -330,8 +328,6 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace = 256
   source ~/.vimrc_background
 endif
-
-highlight CursorLineNr ctermbg=LightGreen ctermfg=Black
 
 " }}}
 
@@ -421,16 +417,6 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " Plugins Settings {{{
 
-" Bufferline {{{
-
-" bufferline should not echo to the command line
-let g:bufferline_echo = 0
-
-" Denotes whether buffer numbers should be displayed
-let g:bufferline_show_bufnr = 0
-
-" }}}
-
 " Airline {{{
 
 " Set airline theme to light
@@ -477,12 +463,6 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 
 " Enable tagbar integration
 let g:airline#extensions#tagbar#enabled = 1
-
-" Enable bufferline integration
-let g:airline#extensions#bufferline#enabled = 1
-
-" Determine whether bufferline will overwrite customization variables
-let g:airline#extensions#bufferline#overwrite_variables = 1
 
 " }}}
 
