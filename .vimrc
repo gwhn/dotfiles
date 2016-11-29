@@ -94,11 +94,7 @@ set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.orig                           " Merge resolution files
 
 " No beeping at me!
-set visualbell
-" Disable error bells
-set noerrorbells
-set t_vb=
-set belloff=all
+set visualbell noerrorbells t_vb= belloff=all
 
 " Disable cursor keys in insert mode
 set noesckeys
@@ -109,15 +105,11 @@ set backspace=indent,eol,start
 " Optimize for fast terminal connections
 set ttyfast
 
-" Add the g flag to search/replace by default
-set gdefault
-
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 
 " Auto read and write
-set autoread
-set autowrite
+set autoread autowrite
 
 " Don’t add empty newlines at the end of files
 set binary
@@ -126,39 +118,12 @@ set noeol
 " Enable more history
 set history=1000
 
-" Enable backup and disable swap file
-set backup
-set noswapfile
-
-" Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-
-if !isdirectory(expand(&backupdir))
-  call mkdir(expand(&backupdir), "p")
-endif
-if !isdirectory(expand(&directory))
-  call mkdir(expand(&directory), "p")
-endif
-if !isdirectory(expand(&undodir))
-  call mkdir(expand(&undodir), "p")
-endif
-
-" Auto save undo history
-if has("persistent_undo")
-  set undodir=~/.vim/undo
-  set undofile
-endif
-
-" Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
-
 " Respect modeline in files
 set modeline
-"set modelines=0
+set modelines=0
 
 " Enable per-directory .vimrc files and disable unsafe commands in them
-"set exrc
+set exrc
 set secure
 
 " Enable line numbers
@@ -168,22 +133,16 @@ set number
 syntax on
 
 " set dark background
-"set background=dark
+set background=dark
 
 " Highlight current line
 set cursorline
 
 " Make tabs as wide as two spaces
-set tabstop=2
-set shiftround
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+set tabstop=2 shiftround shiftwidth=2 softtabstop=2 expandtab
 
 " Timeout on key codes but not mappings
-set notimeout
-set ttimeout
-set ttimeoutlen=10
+set notimeout ttimeout ttimeoutlen=10
 
 " Set updatetime
 set updatetime=1000
@@ -196,10 +155,9 @@ set list
 set showbreak=↪
 
 " Split new windows below and right
-set splitbelow
-set splitright
+set splitbelow splitright
 
-" Set lazyredraw. To force :redraw
+" Don't redraw while executing macros
 set lazyredraw
 
 " Font type and size setting.
@@ -215,22 +173,13 @@ endif
 set linespace=0
 
 " Handle long lines nicely
-set linebreak
-set wrap
-set textwidth=80
-set formatoptions=qrn1t
-set colorcolumn=+1
-
-" Highlight searches
-set hlsearch
+set linebreak wrap textwidth=80 formatoptions=qrn1t colorcolumn=+1
 
 " Ignore case of searches
-set ignorecase
-set smartcase
+set ignorecase smartcase
 
 " Highlight dynamically as pattern is typed
-set incsearch
-set showmatch
+set hlsearch incsearch showmatch gdefault
 
 " Always show status line
 set laststatus=2
@@ -260,18 +209,43 @@ set showcmd
 set formatprg=par
 
 " Start scrolling three lines before the horizontal window border
-set scrolloff=3
-set sidescroll=1
-set sidescrolloff=10
+set scrolloff=3 sidescroll=1 sidescrolloff=10
 
-" Start with fold closed
-set foldlevelstart=0
-
-" Use marker folding
-set foldmethod=marker
+" Start with fold closed and use marker folding
+set foldlevelstart=0 foldmethod=marker
 
 " Allow virtual editing in Visual block mode
 set virtualedit+=block
+
+" Backup, Swap and Undo Options {{{
+
+" Enable backup and disable swap file
+set backup noswapfile
+
+" Centralize backups, swapfiles and undo history
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), "p")
+endif
+if !isdirectory(expand(&undodir))
+  call mkdir(expand(&undodir), "p")
+endif
+
+" Auto save undo history
+if has("persistent_undo")
+  set undodir=~/.vim/undo
+  set undofile
+endif
+
+" Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
+
+" }}}
 
 " }}}
 
@@ -283,6 +257,12 @@ iabbrev gwhn@ guy@weblitz.co.uk
 " }}}
 
 " Auto Commands {{{
+
+" Show netrw if no file given at startup
+augroup VimStartup
+  autocmd!
+  autocmd VimEnter * if expand("%") == "" | e . | endif
+augroup END
 
 " Save on losing focus
 autocmd FocusLost * :silent! wall
@@ -328,6 +308,9 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace = 256
   source ~/.vimrc_background
 endif
+
+" Make cursor line number bold
+set highlight=Nb
 
 " }}}
 
