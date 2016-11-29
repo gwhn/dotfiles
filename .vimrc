@@ -10,40 +10,70 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
+" Essentials {{{
+
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
+Plugin 'majutsushi/tagbar'
+Plugin 'mbbill/undotree'
+Plugin 'wincent/ferret'
+
+" }}}
+
+" Utilities {{{
+
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tyru/open-browser.vim'
-Plugin 'chriskempson/base16-vim'
-Plugin 'wincent/command-t'
-Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
-Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-vinegar'
+Plugin 'godlygeek/tabular'
+Plugin 'justinmk/vim-sneak'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'majutsushi/tagbar'
-Plugin 'sjl/gundo.vim'
+
+" }}}
+
+" Snippets {{{
+
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'mattn/emmet-vim'
+
+" }}}
+
+" Syntax {{{
+
 Plugin 'vim-syntastic/syntastic'
+Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
+Plugin 'fatih/vim-go'
+
+" }}}
+
+" Themes {{{
+
+Plugin 'chriskempson/base16-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'bling/vim-bufferline'
-Plugin 'justinmk/vim-sneak'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
-Plugin 'mattn/emmet-vim'
-Plugin 'fatih/vim-go'
-Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
 Plugin 'kshenoy/vim-signature'
-Plugin 'wincent/ferret'
+Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
+
+" }}}
+
+" Retired {{{
+
+"Plugin 'tyru/open-browser.vim'
+"Plugin 'wincent/command-t'
+"Plugin 'scrooloose/nerdtree'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'sjl/gundo.vim'
 " plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'L9'
+"Plugin 'L9'
+
+" }}}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -110,13 +140,9 @@ set history=1000
 set backup
 set noswapfile
 
-" Auto save undo history
-set undofile
-
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
-set undodir=~/.vim/undo
 
 if !isdirectory(expand(&backupdir))
   call mkdir(expand(&backupdir), "p")
@@ -126,6 +152,12 @@ if !isdirectory(expand(&directory))
 endif
 if !isdirectory(expand(&undodir))
   call mkdir(expand(&undodir), "p")
+endif
+
+" Auto save undo history
+if has("persistent_undo")
+  set undodir=~/.vim/undo
+  set undofile
 endif
 
 " Don’t create backups when editing files in certain directories
@@ -248,6 +280,9 @@ set sidescrolloff=10
 " Start with fold closed
 set foldlevelstart=0
 
+" Use marker folding
+set foldmethod=marker
+
 " Allow virtual editing in Visual block mode
 set virtualedit+=block
 
@@ -260,7 +295,7 @@ iabbrev gwhn@ guy@weblitz.co.uk
 
 " }}}
 
-" Auto-commands {{{
+" Auto Commands {{{
 
 " Save on losing focus
 au FocusLost * :silent! wall
@@ -313,7 +348,23 @@ let maplocalleader = "\<cr>"
 
 " }}}
 
-" Key-mappings {{{
+" Key Mappings {{{
+
+" Command Mode Mappings {{{
+
+" }}}
+
+" Insert Mode Mappings {{{
+
+" }}}
+
+" Normal Mode Mappings {{{
+
+" }}}
+
+" Visual Mode Mappings {{{
+
+" }}}
 
 " Quick escaping
 inoremap jk <esc>
@@ -370,7 +421,7 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " }}}
 
-" Plugins {{{
+" Plugins Settings {{{
 
 " Bufferline {{{
 
@@ -458,15 +509,20 @@ let g:UltiSnipsJumpBackwardTrigger = '<c-p>'
 
 " }}}
 
+" Undotree {{{
+
+nnoremap <leader>ud :UndotreeToggle<cr>
+
+" }}}
+
 " Gundo {{{
 
-" Map F5 to toggle gundo window
-nnoremap <leader>ud :GundoToggle<CR>
+"nnoremap <leader>ud :GundoToggle<CR>
 
 " Display gundo in window on right
-let g:gundo_width = 50
-let g:gundo_right = 1
-let g:gundo_help = 0
+"let g:gundo_width = 50
+"let g:gundo_right = 1
+"let g:gundo_help = 0
 
 " }}}
 
@@ -549,19 +605,19 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 " Command-T {{{
 
 " Change command-t mappings
-nmap <silent> <leader>ff <Plug>(CommandT)
-nmap <silent> <leader>fb <Plug>(CommandTBuffer)
-nmap <silent> <leader>fj <Plug>(CommandTJump)
+"nmap <silent> <leader>ff <Plug>(CommandT)
+"nmap <silent> <leader>fb <Plug>(CommandTBuffer)
+"nmap <silent> <leader>fj <Plug>(CommandTJump)
 
 " }}}
 
 " NERDTree {{{
 
 " Add NERD tree toggle mapping
-nnoremap <leader>nt :NERDTreeToggle<cr>
-nnoremap <leader>nm :NERDTreeMirror<cr>
-nnoremap <leader>nf :NERDTreeFind<cr>
-nnoremap <leader>nc :NERDTreeCWD<cr>
+"nnoremap <leader>nt :NERDTreeToggle<cr>
+"nnoremap <leader>nm :NERDTreeMirror<cr>
+"nnoremap <leader>nf :NERDTreeFind<cr>
+"nnoremap <leader>nc :NERDTreeCWD<cr>
 
 " }}}
 
