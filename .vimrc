@@ -28,7 +28,6 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-vinegar'
 Plugin 'godlygeek/tabular'
 Plugin 'justinmk/vim-sneak'
 Plugin 'scrooloose/nerdcommenter'
@@ -60,18 +59,6 @@ Plugin 'bling/vim-bufferline'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kshenoy/vim-signature'
 Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
-
-" }}}
-
-" Retired {{{
-
-"Plugin 'tyru/open-browser.vim'
-"Plugin 'wincent/command-t'
-"Plugin 'scrooloose/nerdtree'
-"Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'sjl/gundo.vim'
-" plugin from http://vim-scripts.org/vim/scripts.html
-"Plugin 'L9'
 
 " }}}
 
@@ -109,9 +96,13 @@ set wildignore+=*.orig                           " Merge resolution files
 
 " No beeping at me!
 set visualbell
+" Disable error bells
+set noerrorbells
+set t_vb=
+set belloff=all
 
-" Allow cursor keys in insert mode
-set esckeys
+" Disable cursor keys in insert mode
+set noesckeys
 
 " Allow backspace in insert mode
 set backspace=indent,eol,start
@@ -165,7 +156,7 @@ set backupskip=/tmp/*,/private/tmp/*
 
 " Respect modeline in files
 set modeline
-set modelines=0
+"set modelines=0
 
 " Enable per-directory .vimrc files and disable unsafe commands in them
 set exrc
@@ -248,9 +239,6 @@ set laststatus=2
 " Enable mouse in all modes
 set mouse=a
 
-" Disable error bells
-set noerrorbells
-
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 
@@ -298,18 +286,18 @@ iabbrev gwhn@ guy@weblitz.co.uk
 " Auto Commands {{{
 
 " Save on losing focus
-au FocusLost * :silent! wall
+autocmd FocusLost * :silent! wall
 
 " Use relative line numbers
 if exists("&relativenumber")
   set relativenumber
-  au BufReadPost * set relativenumber
+  autocmd BufReadPost * set relativenumber
 endif
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
-    au!
-    au BufReadPost *
+    autocmd!
+    autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     execute 'normal! g`"zvzz' |
         \ endif
@@ -341,10 +329,10 @@ endif
 
 " Change mapleader to <space> key
 let mapleader = "\<space>"
-"nnoremap <leader> <space>
+noremap \ <space>
 " Change maplocalleader to <cr> key
 let maplocalleader = "\<cr>"
-"nnoremap <localleader> <cr>
+noremap _ <cr>
 
 " }}}
 
@@ -435,8 +423,11 @@ let g:bufferline_show_bufnr = 0
 
 " Airline {{{
 
-" Set airline theme to base16
-let g:airline_theme = 'base16'
+" Set airline theme to light
+let g:airline_theme = 'cobalt2'
+
+" Improves the contrast for the inactive statusline
+let g:airline_base16_improved_contrast = 1
 
 " Use Powerline fonts with airline
 let g:airline_powerline_fonts = 1
@@ -515,17 +506,6 @@ nnoremap <leader>ud :UndotreeToggle<cr>
 
 " }}}
 
-" Gundo {{{
-
-"nnoremap <leader>ud :GundoToggle<CR>
-
-" Display gundo in window on right
-"let g:gundo_width = 50
-"let g:gundo_right = 1
-"let g:gundo_help = 0
-
-" }}}
-
 " Tabularize {{{
 
 " Tabularize shortcuts for = and : alignment
@@ -599,25 +579,6 @@ let g:syntastic_check_on_wq = 0
 " Fix opening/saving file lag with vim-go and syntastic
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-
-" }}}
-
-" Command-T {{{
-
-" Change command-t mappings
-"nmap <silent> <leader>ff <Plug>(CommandT)
-"nmap <silent> <leader>fb <Plug>(CommandTBuffer)
-"nmap <silent> <leader>fj <Plug>(CommandTJump)
-
-" }}}
-
-" NERDTree {{{
-
-" Add NERD tree toggle mapping
-"nnoremap <leader>nt :NERDTreeToggle<cr>
-"nnoremap <leader>nm :NERDTreeMirror<cr>
-"nnoremap <leader>nf :NERDTreeFind<cr>
-"nnoremap <leader>nc :NERDTreeCWD<cr>
 
 " }}}
 
