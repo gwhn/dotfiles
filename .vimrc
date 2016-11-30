@@ -349,8 +349,6 @@ inoremap jk <esc>
 " Tame searching/moving
 nnoremap / /\v
 vnoremap / /\v
-nnoremap <tab> %
-vnoremap <tab> %
 
 " Get into good habits by disabling arrow keys
 nnoremap <up> <nop>
@@ -363,23 +361,10 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 " And backspace and escape in insert mode
 inoremap <bs> <nop>
-inoremap <esc> <nop>
 
 " Make j and k move up and down by screen line, not file line
 nnoremap j gj
 nnoremap k gk
-
-" Change window navigation mapping
-nnoremap <c-j> <c-w>j<c-w>_
-nnoremap <c-k> <c-w>k<c-w>_
-nnoremap <c-l> <c-w>l<c-w>_
-nnoremap <c-h> <c-w>h<c-w>_
-
-" Create a split on the given side
-nnoremap <leader>hh :leftabove vsp<cr>
-nnoremap <leader>ll :rightbelow vsp<cr>
-nnoremap <leader>kk :leftabove sp<cr>
-nnoremap <leader>jj :rightbelow sp<cr>
 
 " Disable F1 because it's too close to ESC
 inoremap <f1> <esc>
@@ -452,14 +437,15 @@ let g:airline#extensions#tagbar#enabled = 1
 " YouCompleteMe {{{
 
 " Make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<c-n>', '<down>']
-let g:ycm_key_list_previous_completion = ['<c-p>', '<up>']
+let g:ycm_key_list_select_completion = ['<c-j>', '<c-n>', '<down>']
+let g:ycm_key_list_previous_completion = ['<c-k>', '<c-p>', '<up>']
 
 " }}}
 
 " SuperTab {{{
 
 let g:SuperTabDefaultCompletionType = '<c-n>'
+let g:SuperTabCrMapping = 0
 
 " }}}
 
@@ -468,8 +454,8 @@ let g:SuperTabDefaultCompletionType = '<c-n>'
 " Better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsListSnippets = '<c-s>'
-let g:UltiSnipsJumpForwardTrigger = '<c-n>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-p>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " }}}
 
