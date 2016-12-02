@@ -32,11 +32,13 @@ Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-speeddating'
 Plugin 'godlygeek/tabular'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'kana/vim-textobj-user'
 
 " }}}
 
@@ -51,8 +53,9 @@ Plugin 'mattn/emmet-vim'
 " Syntax {{{
 
 Plugin 'vim-syntastic/syntastic'
-Plugin 'plasticboy/vim-markdown' " NOTE: must come after tabular
 Plugin 'fatih/vim-go'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'cakebaker/scss-syntax.vim'
 
 " }}}
 
@@ -179,7 +182,7 @@ endif
 set linespace=0
 
 " Handle long lines nicely
-set linebreak wrap textwidth=80 formatoptions=qrn1t "colorcolumn=+1
+set linebreak wrap textwidth=80 formatoptions=qrn1tcj "colorcolumn=+1
 
 " Ignore case of searches
 set ignorecase smartcase
@@ -298,6 +301,12 @@ if has("autocmd")
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
+
+" Place quickfix window at bottom right
+autocmd FileType qf wincmd J
+
+" Place help window at top left
+autocmd FileType help wincmd K
 
 " }}}
 
@@ -444,6 +453,8 @@ let g:airline#extensions#tagbar#enabled = 1
 
 " YouCompleteMe {{{
 
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
 " Make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<c-j>', '<c-n>', '<down>']
 let g:ycm_key_list_previous_completion = ['<c-k>', '<c-p>', '<up>']
@@ -477,11 +488,23 @@ nnoremap <leader>ud :UndotreeToggle<cr>
 
 " Tabularize shortcuts for = and : alignment
 if exists(":Tabularize")
-  nnoremap <leader>a= :Tabularize /=<cr>
-  vnoremap <leader>a= :Tabularize /=<cr>
-  nnoremap <leader>a: :Tabularize /:\zs<cr>
-  vnoremap <leader>a: :Tabularize /:\zs<cr>
+  nnoremap <leader>t= :Tabularize /=<cr>
+  vnoremap <leader>t= :Tabularize /=<cr>
+  nnoremap <leader>t: :Tabularize /:<cr>
+  vnoremap <leader>t: :Tabularize /:<cr>
+  nnoremap <leader>t:: :Tabularize /:\zs<cr>
+  vnoremap <leader>t:: :Tabularize /:\zs<cr>
+  nnoremap <leader>t, :Tabularize /,<cr>
+  vnoremap <leader>t, :Tabularize /,<cr>
+  nnoremap <leader>t<bar> :Tabularize /<bar><cr>
+  vnoremap <leader>t<bar> :Tabularize /<bar><cr>
 endif
+
+" }}}
+
+" BufExplorer {{{
+
+let g:bufExplorerDefaultHelp = 0       " Do not show default help.
 
 " }}}
 
@@ -502,6 +525,9 @@ let g:go_fmt_command = 'goimports'
 
 " By default vim-go shows errors for the fmt command, to disable it
 let g:go_fmt_fail_silently = 0
+
+" Experimental mode saves undo history
+let g:go_fmt_experimental = 1
 
 " An issue with vim-go and syntastic is that the location list window that
 " contains the output of commands such as :GoBuild and :GoTest might not appear
