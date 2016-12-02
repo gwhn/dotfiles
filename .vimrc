@@ -12,6 +12,8 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Essentials {{{
 
+Plugin 'jlanzarotta/bufexplorer'
+Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
@@ -28,9 +30,13 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-dispatch'
 Plugin 'godlygeek/tabular'
-Plugin 'justinmk/vim-sneak'
+Plugin 'easymotion/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'AndrewRadev/splitjoin.vim'
 
 " }}}
 
@@ -68,6 +74,9 @@ filetype plugin indent on    " required
 " }}}
 
 " Options {{{
+
+" Enable syntax highlighting
+syntax on
 
 " Search down into subfolders
 set path+=**
@@ -129,9 +138,6 @@ set secure
 " Enable line numbers
 set number
 
-" Enable syntax highlighting
-syntax on
-
 " set dark background
 set background=dark
 
@@ -155,7 +161,7 @@ set list
 set showbreak=↪
 
 " Split new windows below and right
-set splitbelow splitright
+"set splitbelow splitright
 
 " Don't redraw while executing macros
 set lazyredraw
@@ -173,7 +179,7 @@ endif
 set linespace=0
 
 " Handle long lines nicely
-set linebreak wrap textwidth=80 formatoptions=qrn1t colorcolumn=+1
+set linebreak wrap textwidth=80 formatoptions=qrn1t "colorcolumn=+1
 
 " Ignore case of searches
 set ignorecase smartcase
@@ -257,12 +263,6 @@ iabbrev gwhn@ guy@weblitz.co.uk
 " }}}
 
 " Auto Commands {{{
-
-" Show netrw if no file given at startup
-augroup VimStartup
-  autocmd!
-  autocmd VimEnter * if expand("%") == "" | e . | endif
-augroup END
 
 " Save on losing focus
 autocmd FocusLost * :silent! wall
@@ -385,6 +385,14 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " Plugins Settings {{{
 
+" NERDTree {{{
+
+let g:NERDTreeHijackNetrw = 1
+
+nnoremap <leader>nt :NERDTreeToggle<cr>
+
+" }}}
+
 " Airline {{{
 
 " Set airline theme to light
@@ -479,34 +487,6 @@ endif
 
 " vim-go {{{
 
-" vim-go run, build, test and coverage mappings
-au FileType go nmap <leader>gr <Plug>(go-run)
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gt <Plug>(go-test)
-au FileType go nmap <leader>gc <Plug>(go-coverage)
-
-" By default the mapping gd is enabled,
-" which opens the target identifier in current buffer.
-" Open the definition/declaration, in a new vertical,
-" horizontal, or tab, for the word under your cursor:
-au FileType go nmap <leader>ds <Plug>(go-def-split)
-au FileType go nmap <leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <leader>dt <Plug>(go-def-tab)
-
-" Open the relevant Godoc for the word under the cursor with <leader>gd or open
-" it vertically
-au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
-
-" Show a list of interfaces which is implemented by the type under your cursor
-au FileType go nmap <leader>gs <Plug>(go-implements)
-
-" Show type info for the word under your cursor
-au FileType go nmap <leader>gi <Plug>(go-info)
-
-" Rename the identifier under the cursor to a new name
-au FileType go nmap <leader>ge <Plug>(go-rename)
-
 " Set golang syntax highlighting
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -514,12 +494,70 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
 
 " Enable goimports to automatically insert import paths instead of gofmt
 let g:go_fmt_command = 'goimports'
 
 " By default vim-go shows errors for the fmt command, to disable it
-let g:go_fmt_fail_silently = 1
+let g:go_fmt_fail_silently = 0
+
+" An issue with vim-go and syntastic is that the location list window that
+" contains the output of commands such as :GoBuild and :GoTest might not appear
+let g:go_list_type = "quickfix"
+
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_deadline = "5s"
+
+" vim-go run, build, test and coverage mappings
+autocmd FileType go nmap <leader>gr <Plug>(go-run)
+autocmd FileType go nmap <leader>gt <Plug>(go-test)
+autocmd FileType go nmap <leader>gm <Plug>(go-metalinter)
+autocmd FileType go nmap <leader>gc <Plug>(go-coverage-toggle)
+
+" Run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#cmd#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+autocmd FileType go nmap <leader>gb :<C-u>call <SID>build_go_files()<CR>
+
+" By default the mapping gd is enabled,
+" which opens the target identifier in current buffer.
+" Open the definition/declaration, in a new vertical,
+" horizontal, or tab, for the word under your cursor:
+autocmd FileType go nmap <leader>ds <Plug>(go-def-split)
+autocmd FileType go nmap <leader>dv <Plug>(go-def-vertical)
+autocmd FileType go nmap <leader>dt <Plug>(go-def-tab)
+
+" Open the relevant Godoc for the word under the cursor with <leader>gd or open
+" it vertically
+autocmd FileType go nmap <leader>gd <Plug>(go-doc)
+autocmd FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+
+autocmd FileType go nmap <leader>ge :GoDecls<cr>
+autocmd FileType go nmap <leader>gi :GoDeclsDir<cr>
+
+autocmd FileType go nmap <leader>ggs <Plug>(go-implements)
+autocmd FileType go nmap <leader>ggi <Plug>(go-info)
+autocmd FileType go nmap <leader>gge <Plug>(go-rename)
+autocmd FileType go nmap <leader>ggt <Plug>(go-sameids-toggle)
+autocmd FileType go nmap <leader>ggr <Plug>(go-referrers)
+autocmd FileType go nmap <leader>ggd <Plug>(go-describe)
+
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
 " }}}
 
