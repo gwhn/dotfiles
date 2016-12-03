@@ -13,6 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Essentials {{{
 
 Plugin 'jlanzarotta/bufexplorer'
+Plugin 'vim-scripts/YankRing.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ervandew/supertab'
@@ -354,6 +355,7 @@ noremap _ <cr>
 
 " Quick escaping
 inoremap jk <esc>
+inoremap JK <esc>
 
 " Tame searching/moving
 nnoremap / /\v
@@ -505,6 +507,12 @@ endif
 " BufExplorer {{{
 
 let g:bufExplorerDefaultHelp = 0       " Do not show default help.
+
+" }}}
+
+" YankRing {{{
+
+nnoremap <silent> <leader>yr :YRShow<CR>
 
 " }}}
 
