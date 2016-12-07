@@ -1,5 +1,6 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible    " be iMproved, required
+set shell=/bin/bash " doesn't play well with fish
+filetype off        " required
 
 " Configure Plugins {{{
 
@@ -10,66 +11,140 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Essentials {{{
-
 Plugin 'jlanzarotta/bufexplorer'
+" Do not show default help.
+let g:bufExplorerDefaultHelp = 0
+
 Plugin 'vim-scripts/YankRing.vim'
+
 Plugin 'scrooloose/nerdtree'
+" Use instead of Netrw
+let g:NERDTreeHijackNetrw = 1
+
 Plugin 'ctrlpvim/ctrlp.vim'
+
 Plugin 'ervandew/supertab'
+let g:SuperTabDefaultCompletionType = '<c-n>'
+let g:SuperTabCrMapping = 0
+
 Plugin 'Valloric/YouCompleteMe' " NOTE: must come after supertab
+" The preview window is a bit annoying when it hangs around
+let g:ycm_autoclose_preview_window_after_insertion = 1
+" Make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<c-j>', '<c-n>']
+let g:ycm_key_list_previous_completion = ['<c-k>', '<c-p>']
+
 Plugin 'majutsushi/tagbar'
+
 Plugin 'mbbill/undotree'
+
 Plugin 'wincent/ferret'
 
-" }}}
-
-" Utilities {{{
-
 Plugin 'tpope/vim-fugitive'
+
 Plugin 'tpope/vim-repeat'
+
 Plugin 'tpope/vim-surround'
+
 Plugin 'tpope/vim-sleuth'
+
 Plugin 'tpope/vim-unimpaired'
+
 Plugin 'tpope/vim-abolish'
+
 Plugin 'tpope/vim-dispatch'
+
 Plugin 'tpope/vim-speeddating'
+
 Plugin 'godlygeek/tabular'
+
 Plugin 'easymotion/vim-easymotion'
+
 Plugin 'scrooloose/nerdcommenter'
+
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+
 Plugin 'AndrewRadev/splitjoin.vim'
+
 Plugin 'kana/vim-textobj-user'
 
-" }}}
-
-" Snippets {{{
-
 Plugin 'SirVer/ultisnips'
+" Better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsListSnippets = '<c-s>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
 Plugin 'honza/vim-snippets'
+
 Plugin 'mattn/emmet-vim'
 
-" }}}
-
-" Syntax {{{
-
 Plugin 'vim-syntastic/syntastic'
+" Basic syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" Fix opening/saving file lag with vim-go and syntastic
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
 Plugin 'fatih/vim-go'
+" Enable goimports to automatically insert import paths instead of gofmt
+let g:go_fmt_command = 'goimports'
+" By default vim-go shows errors for the fmt command, to disable it
+let g:go_fmt_fail_silently = 0
+" Experimental mode saves undo history
+let g:go_fmt_experimental = 1
+" An issue with vim-go and syntastic is that the location list window that
+" contains the output of commands such as :GoBuild and :GoTest might not appear
+let g:go_list_type = "quickfix"
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_deadline = "5s"
+
 Plugin 'sheerun/vim-polyglot'
+
 Plugin 'cakebaker/scss-syntax.vim'
 
-" }}}
-
-" Themes {{{
-
 Plugin 'chriskempson/base16-vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'kshenoy/vim-signature'
-Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
 
-" }}}
+Plugin 'vim-airline/vim-airline'
+" Set airline theme to light
+let g:airline_theme = 'cobalt2'
+" Improves the contrast for the inactive statusline
+let g:airline_base16_improved_contrast = 1
+" Use Powerline fonts with airline
+let g:airline_powerline_fonts = 1
+" Use enhanced airline tabline
+let g:airline#extensions#tabline#enabled = 1
+" Enable displaying buffers with a single tab
+let g:airline#extensions#tabline#show_buffers = 1
+" Enable displaying tab number in tabs mode
+let g:airline#extensions#tabline#show_tab_nr = 1
+" Disable buffer numbers in tabline
+let g:airline#extensions#tabline#buffer_nr_show = 0
+" Configure the formatting of filenames to just the tail
+let g:airline#extensions#tabline#fnamemod = ':t'
+" The `unique_tail_improved` - another algorithm, that will smartly uniquify
+" buffers names with similar filename, suppressing common parts of paths
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" Enable displaying index of the buffer
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+" Enable tagbar integration
+let g:airline#extensions#tagbar#enabled = 1
+
+Plugin 'vim-airline/vim-airline-themes'
+
+Plugin 'airblade/vim-gitgutter'
+
+Plugin 'kshenoy/vim-signature'
+
+Plugin 'ryanoasis/vim-devicons' " NOTE: must come after NERDTree and airline
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -185,7 +260,7 @@ set linespace=0
 " Handle long lines nicely
 set linebreak wrap textwidth=80 formatoptions=qrn1tcj "colorcolumn=+1
 
-" Ignore case of searches
+" Ignore case of searches, but be smart if I use uppercase
 set ignorecase smartcase
 
 " Highlight dynamically as pattern is typed
@@ -222,7 +297,7 @@ set formatprg=par
 set scrolloff=3 sidescroll=1 sidescrolloff=10
 
 " Start with fold closed and use marker folding
-set foldlevelstart=0 foldmethod=marker
+set foldlevelstart=0 foldmethod=marker foldcolumn=1 foldclose=all
 
 " Allow virtual editing in Visual block mode
 set virtualedit+=block
@@ -337,25 +412,11 @@ noremap _ <cr>
 
 " Key Mappings {{{
 
-" Command Mode Mappings {{{
-
-" }}}
-
-" Insert Mode Mappings {{{
-
-" }}}
-
-" Normal Mode Mappings {{{
-
-" }}}
-
-" Visual Mode Mappings {{{
-
-" }}}
-
 " Quick escaping
 inoremap jk <esc>
+inoremap kj <esc>
 inoremap JK <esc>
+inoremap KJ <esc>
 
 " Tame searching/moving
 nnoremap / /\v
@@ -391,160 +452,31 @@ noremap <leader>W :w !sudo tee % > /dev/null<cr>
 " Quick editing
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ef :vsplit ~/.config/fish/config.fish<cr>
 
-" }}}
-
-" Plugins Settings {{{
-
-" NERDTree {{{
-
-let g:NERDTreeHijackNetrw = 1
-
-nnoremap <leader>nt :NERDTreeToggle<cr>
-
-" }}}
-
-" Airline {{{
-
-" Set airline theme to light
-let g:airline_theme = 'cobalt2'
-
-" Improves the contrast for the inactive statusline
-let g:airline_base16_improved_contrast = 1
-
-" Use Powerline fonts with airline
-let g:airline_powerline_fonts = 1
-
-" Use enhanced airline tabline
-let g:airline#extensions#tabline#enabled = 1
-
-" Enable displaying buffers with a single tab
-let g:airline#extensions#tabline#show_buffers = 1
-
-" Enable displaying tab number in tabs mode
-let g:airline#extensions#tabline#show_tab_nr = 1
-
-" Disable buffer numbers in tabline
-let g:airline#extensions#tabline#buffer_nr_show = 0
-
-" Configure the formatting of filenames to just the tail
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" The `unique_tail_improved` - another algorithm, that will smartly uniquify
-" buffers names with similar filename, suppressing common parts of paths
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-" Enable displaying index of the buffer
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
-
-" Enable tagbar integration
-let g:airline#extensions#tagbar#enabled = 1
-
-" }}}
-
-" YouCompleteMe {{{
-
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-" Make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<c-j>', '<c-n>', '<down>']
-let g:ycm_key_list_previous_completion = ['<c-k>', '<c-p>', '<up>']
-
-" }}}
-
-" SuperTab {{{
-
-let g:SuperTabDefaultCompletionType = '<c-n>'
-let g:SuperTabCrMapping = 0
-
-" }}}
-
-" UltiSnips {{{
-
-" Better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsListSnippets = '<c-s>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-
-" }}}
-
-" Undotree {{{
-
-nnoremap <leader>ud :UndotreeToggle<cr>
-
-" }}}
-
-" Tabularize {{{
-
-" Tabularize shortcuts for = and : alignment
-if exists(":Tabularize")
-  nnoremap <leader>t= :Tabularize /=<cr>
-  vnoremap <leader>t= :Tabularize /=<cr>
-  nnoremap <leader>t: :Tabularize /:<cr>
-  vnoremap <leader>t: :Tabularize /:<cr>
-  nnoremap <leader>t:: :Tabularize /:\zs<cr>
-  vnoremap <leader>t:: :Tabularize /:\zs<cr>
-  nnoremap <leader>t, :Tabularize /,<cr>
-  vnoremap <leader>t, :Tabularize /,<cr>
-  nnoremap <leader>t<bar> :Tabularize /<bar><cr>
-  vnoremap <leader>t<bar> :Tabularize /<bar><cr>
-endif
-
-" }}}
-
-" BufExplorer {{{
-
-let g:bufExplorerDefaultHelp = 0       " Do not show default help.
-
-" }}}
-
-" YankRing {{{
-
+" Toggle YankRing
 nnoremap <silent> <leader>yr :YRShow<CR>
 
-" }}}
+" Toggle NERDTree
+nnoremap <leader>nt :NERDTreeToggle<cr>
 
-" vim-go {{{
+" Add Tagbar toggle mapping
+nnoremap <leader>tb :TagbarToggle<cr>
 
-" Set golang syntax highlighting
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_generate_tags = 1
+" Toggle Undotree
+nnoremap <leader>ud :UndotreeToggle<cr>
 
-" Enable goimports to automatically insert import paths instead of gofmt
-let g:go_fmt_command = 'goimports'
-
-" By default vim-go shows errors for the fmt command, to disable it
-let g:go_fmt_fail_silently = 0
-
-" Experimental mode saves undo history
-let g:go_fmt_experimental = 1
-
-" An issue with vim-go and syntastic is that the location list window that
-" contains the output of commands such as :GoBuild and :GoTest might not appear
-let g:go_list_type = "quickfix"
-
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_deadline = "5s"
+" Tabularize shortcuts for = and : alignment
+nnoremap <leader>t= :Tabularize /=<cr>
+vnoremap <leader>t= :Tabularize /=<cr>
+nnoremap <leader>t: :Tabularize /:<cr>
+vnoremap <leader>t: :Tabularize /:<cr>
+nnoremap <leader>t:: :Tabularize /:\zs<cr>
+vnoremap <leader>t:: :Tabularize /:\zs<cr>
+nnoremap <leader>t, :Tabularize /,<cr>
+vnoremap <leader>t, :Tabularize /,<cr>
+nnoremap <leader>t<bar> :Tabularize /<bar><cr>
+vnoremap <leader>t<bar> :Tabularize /<bar><cr>
 
 " vim-go run, build, test and coverage mappings
 autocmd FileType go nmap <leader>gr <Plug>(go-run)
@@ -592,40 +524,22 @@ autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+autocmd BufNewFile,BufRead *.go setlocal foldmethod=indent foldlevel=0 foldlevelstart=0 foldclose=all foldminlines=0 foldnestmax=1
 
-" }}}
-
-" Syntastic {{{
-
-" Basic syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" Fix opening/saving file lag with vim-go and syntastic
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-
-" }}}
-
-" Tagbar {{{
-
-" Add Tagbar toggle mapping
-nnoremap <leader>tb :TagbarToggle<cr>
-
-" }}}
-
-" GitGutter {{{
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
 
 " Remap GitGutter hunk jumps to avoid collisions with vim-unimpaired
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
-
-" }}}
 
 " }}}
