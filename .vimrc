@@ -37,6 +37,9 @@ let g:ycm_key_list_previous_completion = ['<c-k>', '<c-p>']
 Plugin 'majutsushi/tagbar'
 
 Plugin 'mbbill/undotree'
+let g:undotree_WindowLayout = 2
+let g:undotree_DiffpanelHeight = 7
+let g:undotree_SetFocusWhenToggle = 1
 
 Plugin 'wincent/ferret'
 
@@ -55,6 +58,8 @@ Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-dispatch'
 
 Plugin 'tpope/vim-speeddating'
+
+Plugin 'tpope/vim-obsession'
 
 Plugin 'godlygeek/tabular'
 
@@ -135,8 +140,14 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 " Enable displaying index of the buffer
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+" Enable Refresh of tabline buffers on BufAdd autocommands
+let airline#extensions#tabline#disable_refresh = 0
 " Enable tagbar integration
 let g:airline#extensions#tagbar#enabled = 1
+" Enable vim-obsession integration
+let g:airline#extensions#obsession#enabled = 1
+" Set marked window indicator string
+let g:airline#extensions#obsession#indicator_text = '$'
 
 Plugin 'vim-airline/vim-airline-themes'
 
